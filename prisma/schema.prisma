@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// "usuário faz check-in em uma academia"
+model User {
+  id            String   @id @default(uuid()) // recursos publicamente expostos devem usar o uuid. increment é apropriado, caso não seja acessível ao usuário final (também ocupa menos espaço no db).
+  name          String
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+
+  // Essas linha não gera entradas no banco de dados! Serve apenas para o Prisma entender a existência do relacionamento.
+  checkIns CheckIn[] // criado automaticamente pelo Prisma, ao definir "user User".
+
+  @@map("users")
+}
+
+// check-in sempre vai estar relacionado com o usuário. Portanto, preciso ter um user_id no check-in.
+// Além disso, um check-in será feito na academia.
+model CheckIn {
+  id           String    @id @default(uuid())
+  created_at   DateTime  @default(now())
+  validated_at DateTime?
+
+  // chaves estrangeiras das tabelas "User" e "Gym"; porém, não é assim que se usa no Prisma.
+  // user_id String
+  // gym_id  String
+
+  // Para definir o relacionamento, só escrever "user User" e salvar; o Prisma aplica o relacionament automaticamente!
+  // Essas linhas não geram entradas no banco de dados! Serve apenas para o Prisma entender a existência do relacionamento.
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  gym    Gym    @relation(fields: [gym_id], references: [id])
+  gym_id String
+
+  @@map("check_ins")
+}
+
+model Gym {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  phone       String?
+  latitude    Decimal
+  longitude   Decimal
+  checkIns    CheckIn[]
+
+  @@map("gyms")
+}
