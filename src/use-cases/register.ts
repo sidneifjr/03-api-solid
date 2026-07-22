@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { UsersRepository } from '@/repositories/users-repository'
 import { hash } from 'bcryptjs'
 
 interface RegisterUseCaseRequest {
@@ -7,11 +8,17 @@ interface RegisterUseCaseRequest {
   password: string
 }
 
-// SOLID
-// D -> Inversion Dependency Principle
-// Ao invés da minha classe instanciar as dependências que ela precisa, ela vai receber as dependências como parâmetro.
+/**
+ * - SOLID
+ *
+ * D -> Inversion Dependency Principle
+ *
+ * Ao invés da minha classe instanciar as dependências que ela precisa, ela vai receber as dependências como parâmetro.
+ *
+ * O DIP propõe que as camadas mais altas de uma aplicação não dependam diretamente das camadas mais baixas, mas sim de uma abstração entre elas. Isso permite maior flexibilidade e facilidade de manutenção do código.
+ */
 export class RegisterUseCase {
-  constructor(private usersRepository: any) { }
+  constructor(private usersRepository: UsersRepository) { }
 
   // Separar este código em um use-case é importante pois, atualmente, estamos registrando um usuário via rota HTTP.
   // Ao desacoplar esse código, ele será reutilizável em outras contextos; assim, podemos registrar um usuário de outras formas.
@@ -20,11 +27,7 @@ export class RegisterUseCase {
     // Em aplicações de muito tráfego, essa quantidade de rounds causará um consumo alto de processamento; portanto, não é apropriado para esse cenário.
     const password_hash = await hash(password, 6)
 
-    const userWithSameEmail = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    })
+    const userWithSameEmail = await this.usersRepository.findByEmail(email)
 
     if (userWithSameEmail) {
       throw new Error('E-mail already exists.')
