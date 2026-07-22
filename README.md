@@ -103,4 +103,7 @@ docker compose stop
 
 -> Teste de requisição:
 
-curl -X POST http://localhost:3000/users -H "Content-Type: application/json" -d '{"name": "Sidnei Farias Jr.", "email": "sidnei@example.com", "password": "123456"}'
+curl -X POST http://localhost:3000/users \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Sidnei Farias Jr.","email":"sidnei@example.com","password":"123456"}' \
+  -w "\nHTTP Status: %{http_code}\n"
