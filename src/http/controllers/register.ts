@@ -27,7 +27,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       return reply.status(409).send({ message: err.message })
     }
 
-    return reply.status(500).send() // TODO: fix me!
+    throw err // "quando for um erro desconhecido, pode deixar que uma camada superior ao controller vai tratar do mesmo". O próprio Fastify possui uma tratativa, porém é sempre bom criar uma própria.
   }
 
   return reply.status(201).send()
