@@ -1,11 +1,16 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { hash } from 'bcryptjs'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import type { User } from '@prisma/client'
 
 interface RegisterUseCaseRequest {
   name: string
   email: string
   password: string
+}
+
+interface RegisterUseCaseResponse {
+  user: User
 }
 
 /**
@@ -22,7 +27,11 @@ export class RegisterUseCase {
 
   // Separar este código em um use-case é importante pois, atualmente, estamos registrando um usuário via rota HTTP.
   // Ao desacoplar esse código, ele será reutilizável em outras contextos; assim, podemos registrar um usuário de outras formas.
-  async execute({ name, email, password }: RegisterUseCaseRequest) {
+  async execute({
+    name,
+    email,
+    password,
+  }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
     // 6 rounds de geração de hash contínuo (um hash é gerado a partir da senha e, a partir desse hash, um novo hash é gerado - repete 6 vezes).
     // Em aplicações de muito tráfego, essa quantidade de rounds causará um consumo alto de processamento; portanto, não é apropriado para esse cenário.
     const password_hash = await hash(password, 6)
@@ -36,10 +45,12 @@ export class RegisterUseCase {
     // const prismaUsersRepository = new PrismaUsersRepository()
 
     // Graças à implementação do DIP, não há mais dependência direto do Prisma.
-    await this.usersRepository.create({
+    const user = await this.usersRepository.create({
       name,
       email,
       password_hash,
     })
+
+    return { user }
   }
 }
