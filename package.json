@@ -11,16 +11,17 @@
     "test": "vitest run",
     "test:watch": "vitest run --watch",
     "studio": "npx prisma studio",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@rocketseat/eslint-config": "2.2.2",
-    "@types/bcryptjs": "3.0.0",
     "@types/node": "^25.3.0",
     "@vitest/coverage-v8": "4.1.10",
+    "@vitest/ui": "4.1.10",
     "dotenv": "17.3.1",
     "eslint": "8.57.1",
     "prisma": "4.10.1",

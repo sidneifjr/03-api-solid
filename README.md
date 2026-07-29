@@ -8,7 +8,7 @@ A funcionalidade em si. "O que o usuário poderá fazer em nossa aplicação?".
 
 "Deve ser possível X".
 
-- [ ] Deve ser possível X se cadastrar;
+- [x] Deve ser possível X se cadastrar;
 - [ ] Deve ser possível se autenticar;
 - [ ] Deve ser possível obter o perfil de um usuário logado;
 - [ ] Deve ser possível obter o número de check-ins realizados pelo usuário logado (Gympass implementou);
@@ -27,7 +27,7 @@ Ela sempre estará relacionada aos RFs.
 
 Seriam os "ifs" da nossa aplicação ou caminhos diferentes que podem ser percorridos.
 
-- [ ] O usuário não deve poder se cadastrar com um email duplicado;
+- [x] O usuário não deve poder se cadastrar com um email duplicado;
 - [ ] O usuário não pode fazer 2 check-ins no mesmo dia;
 - [ ] O usuário não pode fazer check-in se não estiver perto (a 100m) da academia;
 - [ ] O check-in só pode ser validade até 20 minutos após criado;
@@ -40,8 +40,8 @@ O cliente não foi possui contato, são quesitos técnicos.
 
 "Qual banco de dados, estratégia de cache da aplicação, qual a abordagem de paginação, etc.".
 
-- [ ] A senha do usuário precisa estar criptografada;
-- [ ] Os dados da aplicação precisam estar persistidos em um  banco PostgreSQL;
+- [x] A senha do usuário precisa estar criptografada;
+- [x] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
 - [ ] Todas listas de dados precisam estar paginadas com 20 itens por página;
 - [ ] O usuário deve ser identificado por um JWT (JSON Web Token);
 
@@ -107,3 +107,10 @@ curl -X POST http://localhost:3000/users \
   -H "Content-Type: application/json" \
   -d '{"name":"Sidnei Farias Jr.","email":"sidnei@example.com","password":"123456"}' \
   -w "\nHTTP Status: %{http_code}\n"
+
+
+começar criando a funcionalidade através do caso de uso. Pois é o caso de uso que descreve a funcionalidade no seu mais baixo nível (é possível testá-lo imediatamente). Assim, começamos de baixo para cima!
+
+Quando desenhar um software, sempre atuar de baixo para cima! (da funcionalidade no seu mais baixo nível até chegar nas camadas externas que se conectam ao meios externos como chamadas http ou banco de dados, etc.).
+
+controller -> fornece um meio de acesso externo ao nosso caso de uso.
