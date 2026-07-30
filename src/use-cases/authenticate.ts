@@ -25,10 +25,8 @@ export class AuthenticateUseCase {
      * Etapas da autenticação:
      *
      * 1) Buscar o usuário no banco pelo e-mail;
-     *
      * 2) Comparar se a senha salva no banco bate com a senha do param.
      */
-
     const user = await this.usersRepository.findByEmail(email)
 
     if (!user) {

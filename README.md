@@ -105,9 +105,13 @@ docker compose stop
 
 curl -X POST http://localhost:3000/users \
   -H "Content-Type: application/json" \
-  -d '{"name":"Sidnei Farias Jr.","email":"sidnei@example.com","password":"123456"}' \
+  -d '{"name":"Sidnei Jr.","email":"sfarias@example.com","password":"768555"}' \
   -w "\nHTTP Status: %{http_code}\n"
 
+curl -X POST http://localhost:3000/sessions \
+  -H "Content-Type: application/json" \
+  -d '{"email":"sfarias@example.com","password":"768555"}' \
+  -w "\nHTTP Status: %{http_code}\n"
 
 começar criando a funcionalidade através do caso de uso. Pois é o caso de uso que descreve a funcionalidade no seu mais baixo nível (é possível testá-lo imediatamente). Assim, começamos de baixo para cima!
 
