@@ -8,10 +8,14 @@
  * IMPORTANTE: todas as operações do banco de dados sempre passarão pelos repositórios.
  */
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
+import { Prisma, User } from '@prisma/client'
 import { UsersRepository } from './users-repository'
 
 export class PrismaUsersRepository implements UsersRepository {
+  findById(id: string): Promise<User | null> {
+    throw new Error('Method not implemented.')
+  }
+
   // O Prisma gera as tipagens das nossas tabelas, devido à sua integração com TypeScript.
   async create(data: Prisma.UserCreateInput) {
     const user = await prisma.user.create({
